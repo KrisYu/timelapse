@@ -1,16 +1,19 @@
-INPUT_PATH_PREFIX = "../7031/"
-OUTPUT_PATH_PREFIX = "../7031/step3_"
 import cv2
 import numpy as np
 import bottleneck
 import subprocess
 
+
+INPUT_PATH_PREFIX = "../videos/"
+OUTPUT_PATH_PREFIX = "../videos/rose_"
 #### These indices are the keyframe indices of the input sequence.
-KEYFRAME_INDICES=np.array([0,255,291,298,361,591,692,779]) #,835,1024,1130,
-#                              1142,1509,1753,1790,2037,2097,2101,2456,3116,
-#                              3492,3576,3754,3981,4029,4051,4199,4219,4267,
-#                              4574,4627,4685,4813,4894,4917,4968,4974])
-KEYFRAME_INDICES=np.array([0,9,307,381,384,396,399,403,783,801,804])
+## There are from previous step
+KEYFRAME_INDICES=np.array([0,255,291,298,361,591,692,779,835,1024,1130,
+                              1142,1509,1753,1790,2037,2097,2101,2456,3116,
+                              3492,3576,3754,3981,4029,4051,4199,4219,4267,
+                              4574,4627,4685,4813,4894,4917,4968,4974])
+
+
 
 #function that modifies those functions in bottleneck module
 def bottleneck_centered( func, data, window, axis = -1 ):
@@ -116,7 +119,7 @@ for index in range(1,KEYFRAME_INDICES.shape[0]):
 
         
         #recover by moving masked_median using C code
-        subprocess.call(['./moving_median_with_mask_function', rose_subsequence_mask_name, rose_subsequence_img_name,str(kbuffersize),rose_subsequence_mm_outputname])
+        subprocess.call(['build/moving_median_with_mask_function', rose_subsequence_mask_name, rose_subsequence_img_name,str(kbuffersize),rose_subsequence_mm_outputname])
 
         frame_mask=mask
         recover_base=cv2.imread(rose_subsequence_mm_outputname)
